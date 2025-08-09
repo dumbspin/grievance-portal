@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gunnu's Special Portal 💖</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #ffeef8 0%,
+          #f0f9ff 50%,
+          #fef3e2 100%
+        );
+        min-height: 100vh;
+        color: #333;
+        line-height: 1.6;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="20" r="1" fill="%23ff69b4" opacity="0.3"><animate attributeName="r" values="1;2;1" dur="3s" repeatCount="indefinite"/></circle><circle cx="90" cy="30" r="1.5" fill="%2387ceeb" opacity="0.4"><animate attributeName="cy" values="30;25;30" dur="4s" repeatCount="indefinite"/></circle><circle cx="30" cy="80" r="1" fill="%23dda0dd" opacity="0.3"><animate attributeName="r" values="1;1.5;1" dur="2s" repeatCount="indefinite"/></circle><circle cx="80" cy="70" r="2" fill="%23ffb6c1" opacity="0.3"><animate attributeName="cx" values="80;85;80" dur="5s" repeatCount="indefinite"/></circle></svg>')
+          repeat;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Floating hearts animation */
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 20px;
+        animation: float 8s infinite linear;
+      }
+
+      .heart:nth-child(1) {
+        color: #ff69b4;
+      }
+      .heart:nth-child(2) {
+        color: #87ceeb;
+      }
+      .heart:nth-child(3) {
+        color: #dda0dd;
+      }
+      .heart:nth-child(4) {
+        color: #ffb6c1;
+      }
+      .heart:nth-child(5) {
+        color: #98fb98;
+      }
+      .heart:nth-child(6) {
+        color: #ffd700;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg) scale(1);
+          opacity: 1;
+        }
+        25% {
+          transform: translateY(75vh) rotate(90deg) scale(1.2);
+        }
+        50% {
+          transform: translateY(50vh) rotate(180deg) scale(0.8);
+        }
+        75% {
+          transform: translateY(25vh) rotate(270deg) scale(1.1);
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Welcome Card */
+      .welcome-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(248, 249, 250, 0.98);
+        backdrop-filter: blur(20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      .welcome-card {
+        background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+        padding: 60px 40px;
+        border-radius: 32px;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(255, 105, 180, 0.15),
+          0 0 0 1px rgba(255, 182, 193, 0.2);
+        max-width: 400px;
+        animation: bounceIn 1s ease-out;
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .welcome-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 105, 180, 0.1),
+          transparent
+        );
+        animation: sparkle 3s ease-in-out infinite;
+      }
+
+      @keyframes sparkle {
+        0%,
+        100% {
+          transform: rotate(0deg);
+          opacity: 0;
+        }
+        50% {
+          transform: rotate(180deg);
+          opacity: 1;
+        }
+      }
+
+      .welcome-title {
+        font-size: 3em;
+        background: linear-gradient(45deg, #ff69b4, #ff1493, #da70d6, #ff69b4);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 25px;
+        font-weight: 800;
+        animation: rainbowPulse 3s ease-in-out infinite;
+        text-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+      }
+
+      @keyframes rainbowPulse {
+        0%,
+        100% {
+          background-position: 0% 50%;
+          transform: scale(1);
+        }
+        50% {
+          background-position: 100% 50%;
+          transform: scale(1.05);
+        }
+      }
+
+      .welcome-message {
+        font-size: 1em;
+        color: #6b7280;
+        margin-bottom: 40px;
+        line-height: 1.6;
+        font-weight: 400;
+      }
+
+      .enter-btn {
+        background: linear-gradient(
+          135deg,
+          #ff69b4 0%,
+          #ff1493 50%,
+          #da70d6 100%
+        );
+        color: white;
+        border: none;
+        padding: 18px 36px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .enter-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .enter-btn:hover::before {
+        left: 100%;
+      }
+
+      .enter-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(255, 105, 180, 0.6);
+        animation: wiggle 0.5s ease-in-out;
+      }
+
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: translateY(-3px) scale(1.05) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-3px) scale(1.05) rotate(-2deg);
+        }
+        75% {
+          transform: translateY(-3px) scale(1.05) rotate(2deg);
+        }
+      }
+
+      /* Main Container */
+      .container {
+        max-width: 430px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+      }
+
+      .notification-badge {
+        background: linear-gradient(135deg, #ec4899, #f97316);
+        color: white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .header p {
+        color: #8b5cf6;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      /* Categories Section */
+      .categories-section {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        border-radius: 24px;
+        padding: 28px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(135, 206, 235, 0.1);
+        border: 2px solid rgba(135, 206, 235, 0.2);
+        position: relative;
+      }
+
+      .categories-section::before {
+        content: "✨";
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        font-size: 24px;
+        animation: sparkleRotate 2s ease-in-out infinite;
+      }
+
+      @keyframes sparkleRotate {
+        0%,
+        100% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(180deg) scale(1.2);
+        }
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #87ceeb, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section-title span {
+        font-size: 24px;
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      .categories-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .category-btn {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 16px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        font-weight: 600;
+        color: #64748b;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .category-btn:hover::before {
+        left: 100%;
+      }
+
+      .category-btn.active {
+        background: linear-gradient(135deg, #ff69b4, #8b5cf6);
+        color: white;
+        border-color: #ff69b4;
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+        animation: activeGlow 2s ease-in-out infinite;
+      }
+
+      @keyframes activeGlow {
+        0%,
+        100% {
+          box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+        }
+        50% {
+          box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+        }
+      }
+
+      .category-btn:hover {
+        border-color: #ff69b4;
+        background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+      }
+
+      /* Popular Messages */
+      .popular-section {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .message-card {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .message-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .message-card:last-child {
+        margin-bottom: 0;
+      }
+
+      .message-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ec4899, #f97316);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+
+      .message-info h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #92400e;
+        margin-bottom: 2px;
+      }
+
+      .message-meta {
+        font-size: 12px;
+        color: #a16207;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .message-text {
+        font-size: 14px;
+        color: #92400e;
+        line-height: 1.5;
+        margin-bottom: 12px;
+      }
+
+      .message-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #a16207;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .action-btn:hover {
+        color: #92400e;
+      }
+
+      /* Enhanced Input Section */
+      .input-section {
+        background: linear-gradient(135deg, #ffffff 0%, #f0fff0 100%);
+        border-radius: 24px;
+        padding: 28px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(152, 251, 152, 0.1);
+        border: 2px solid rgba(152, 251, 152, 0.2);
+        position: relative;
+      }
+
+      .input-section::before {
+        content: "💌";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 24px;
+        animation: floatUpDown 2s ease-in-out infinite;
+      }
+
+      @keyframes floatUpDown {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .input-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .input-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff69b4, #98fb98);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .input-title {
+        font-size: 18px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #98fb98, #ff69b4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .input-field {
+        width: 100%;
+        border: 2px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 20px;
+        font-size: 15px;
+        resize: vertical;
+        min-height: 120px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #fafafa 0%, #f0fff0 100%);
+        font-family: inherit;
+        line-height: 1.6;
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: #ff69b4;
+        box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.1);
+        background: white;
+        transform: scale(1.02);
+      }
+
+      .input-field::placeholder {
+        color: #9ca3af;
+        font-style: italic;
+      }
+
+      .submit-button {
+        width: 100%;
+        background: linear-gradient(135deg, #98fb98 0%, #ff69b4 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 18px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(152, 251, 152, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .submit-button:hover::before {
+        left: 100%;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 10px 30px rgba(152, 251, 152, 0.4);
+      }
+
+      /* Messages History */
+      .history-section {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .history-item {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        border-left: 4px solid #6366f1;
+        transition: all 0.2s ease;
+      }
+
+      .history-item:hover {
+        background: #f1f5f9;
+        transform: translateX(4px);
+      }
+
+      .history-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .history-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .history-type {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6366f1;
+      }
+
+      .history-time {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .history-text {
+        font-size: 14px;
+        color: #374151;
+        line-height: 1.5;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #9ca3af;
+      }
+
+      .empty-state-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Success notification */
+      .success-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #f0fff0 100%);
+        border: 2px solid #10b981;
+        border-radius: 20px;
+        padding: 20px 24px;
+        box-shadow: 0 15px 35px rgba(16, 185, 129, 0.2);
+        z-index: 1001;
+        animation: slideInRight 0.4s ease-out;
+        max-width: 340px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .success-notification::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7, #10b981);
+        background-size: 200% 100%;
+        animation: successGlow 2s ease-in-out infinite;
+      }
+
+      @keyframes successGlow {
+        0%,
+        100% {
+          background-position: 0% 0%;
+        }
+        50% {
+          background-position: 100% 0%;
+        }
+      }
+
+      .success-title {
+        font-weight: 700;
+        color: #065f46;
+        margin-bottom: 6px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .success-title::before {
+        content: "🎉";
+        animation: celebrate 0.6s ease-in-out;
+      }
+
+      @keyframes celebrate {
+        0%,
+        100% {
+          transform: scale(1) rotate(0deg);
+        }
+        50% {
+          transform: scale(1.3) rotate(180deg);
+        }
+      }
+
+      .success-message {
+        color: #047857;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 16px;
+          max-width: 100%;
+        }
+
+        .welcome-card {
+          margin: 20px;
+          padding: 40px 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating Hearts -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- Welcome Card -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+      <div class="welcome-card">
+        <div class="welcome-title">Hii Gunnu! 💖</div>
+        <div class="welcome-message">
+          Welcome to your very own special portal! 🌸<br />
+          This is your safe space to share anything on your mind - whether it's
+          something bothering you, a wish you have, or just something you want
+          me to know! 💕
+        </div>
+        <button class="enter-btn" onclick="enterPortal()">
+          Enter My Portal ✨
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent">
+      <!-- Header -->
+      <div class="header">
+        <div class="header-top">
+          <h1>Gunnu's Portal</h1>
+          <div class="notification-badge" id="messageCount">0</div>
+        </div>
+        <p>Your thoughts and feelings matter to me 💝</p>
+      </div>
+
+      <!-- Categories -->
+      <div class="categories-section">
+        <div class="section-title">
+          <span>📝</span>
+          Categories
+        </div>
+        <div class="categories-grid">
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="grievance">
+            Concerns
+          </button>
+          <button class="category-btn" data-category="wish">Wishes</button>
+          <button class="category-btn" data-category="note">Notes</button>
+        </div>
+      </div>
+
+      <!-- Popular Messages Templates -->
+      <div class="popular-section">
+        <div class="section-title">
+          <span>⭐</span>
+          Quick Templates
+        </div>
+
+        <div
+          class="message-card"
+          onclick="useTemplate('I miss spending quality time together 💕')"
+        >
+          <div class="message-header">
+            <div class="message-avatar">💕</div>
+            <div class="message-info">
+              <h3>Quality Time</h3>
+              <div class="message-meta">
+                <span>💝 Relationship</span>
+              </div>
+            </div>
+          </div>
+          <div class="message-text">
+            I miss spending quality time together 💕
+          </div>
+          <div class="message-actions">
+            <button class="action-btn">
+              <span>👆</span>
+              <span>Use Template</span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="message-card"
+          onclick="useTemplate('I wish we could go on a cute date together! 🥰')"
+        >
+          <div class="message-header">
+            <div class="message-avatar">✨</div>
+            <div class="message-info">
+              <h3>Date Wish</h3>
+              <div class="message-meta">
+                <span>🌟 Wishes</span>
+              </div>
+            </div>
+          </div>
+          <div class="message-text">
+            I wish we could go on a cute date together! 🥰
+          </div>
+          <div class="message-actions">
+            <button class="action-btn">
+              <span>👆</span>
+              <span>Use Template</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Input Section -->
+      <div class="input-section">
+        <div class="input-header">
+          <div class="input-avatar">💌</div>
+          <div class="input-title">Share with me</div>
+        </div>
+        <textarea
+          id="messageInput"
+          class="input-field"
+          placeholder="What's on your mind, my love? Share anything - your thoughts, feelings, wishes, or concerns..."
+        ></textarea>
+        <button class="submit-button" onclick="submitMessage()">
+          Send Message 💕
+        </button>
+      </div>
+
+      <!-- Message History -->
+      <div class="history-section">
+        <div class="section-title">
+          <span>📋</span>
+          Your Messages
+        </div>
+        <div id="messagesHistory">
+          <div class="empty-state">
+            <div class="empty-state-icon">💭</div>
+            <p>No messages yet!<br />Share something with me above 💖</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+            let messages = [];
+            let currentCategory = "all";
+
+            // Telegram Bot Configuration
+            const TELEGRAM_BOT_TOKEN = "8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM"; // Replace with your bot token
+            const TELEGRAM_CHAT_ID = "1222090937"; // Replace with your chat ID
+
+            // Create floating hearts with more variety
+            function createHeart() {
+              const heart = document.createElement("div");
+              heart.className = "heart";
+              const heartSymbols = [
+                "💖",
+                "💕",
+                "💝",
+                "💗",
+                "💓",
+                "🌸",
+                "✨",
+                "🌟",
+                "💫",
+                "🦋",
+              ];
+              heart.innerHTML =
+                heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+              heart.style.left = Math.random() * 100 + "%";
+              heart.style.animationDelay = Math.random() * 2 + "s";
+              heart.style.animationDuration = Math.random() * 4 + 6 + "s";
+              document.getElementById("hearts").appendChild(heart);
+
+              setTimeout(() => {
+                heart.remove();
+              }, 10000);
+            }
+
+            setInterval(createHeart, 1500);
+
+            // Send notification to Telegram
+            async function sendTelegramNotification(message) {
+              if (
+                !TELEGRAM_BOT_TOKEN ||
+                !TELEGRAM_CHAT_ID ||
+                TELEGRAM_BOT_TOKEN === "8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM" ||
+                TELEGRAM_CHAT_ID === "1222090937"
+              ) {
+                console.log(
+                  "Telegram not configured. Message would be sent:",
+                  message
+                );
+                return;
+              }
+
+              const typeEmojis = {
+                grievance: "😔💔",
+                wish: "✨🌟",
+                demand: "👑💎",
+                note: "💕💌",
+              };
+
+              const typeTexts = {
+                grievance: "🚨 CONCERN ALERT 🚨",
+                wish: "⭐ NEW WISH ⭐",
+                demand: "👑 IMPORTANT REQUEST 👑",
+                note: "💖 SWEET MESSAGE 💖",
+              };
+
+              const telegramMessage = `
+      ${typeTexts[message.type]}
+
+      ${typeEmojis[message.type]} **From: Gunnu**
+      📝 **Category:** ${message.type.charAt(0).toUpperCase() + message.type.slice(1)}
+      ⏰ **Time:** ${message.timestamp}
+
+      💭 **Message:**
+      "${message.text}"
+
+      ${message.type === "grievance" ? "⚠️ This needs your attention!" : ""}
+      ${message.type === "wish" ? "🎯 Time to make some magic happen!" : ""}
+      ${message.type === "demand" ? "🔥 Priority request from your princess!" : ""}
+      ${message.type === "note" ? "🥰 Your girl is thinking of you!" : ""}
+
+      ━━━━━━━━━━━━━━━━━━━━
+      💌 Sent from Gunnu's Special Portal
+                  `.trim();
+
+              try {
+                const response = await fetch(
+                  `https://api.telegram.org/bot${8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM}/sendMessage`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      chat_id: 1222090937,
+                      text: telegramMessage,
+                      parse_mode: "Markdown",
+                    }),
+                  }
+                );
+
+                const result = await response.json();
+                if (result.ok) {
+                  console.log("✅ Telegram notification sent successfully!");
+                  return true;
+                } else {
+                  console.error("❌ Telegram API error:", result);
+                  return false;
+                }
+              } catch (error) {
+                console.error("❌ Failed to send Telegram notification:", error);
+                return false;
+              }
+            }
+
+            function enterPortal() {
+              const overlay = document.getElementById("welcomeOverlay");
+              overlay.style.animation = "fadeOut 0.8s ease-out forwards";
+
+              // Add confetti effect
+              createConfetti();
+
+              setTimeout(() => {
+                overlay.style.display = "none";
+              }, 800);
+            }
+
+            function createConfetti() {
+              const confettiSymbols = ["🎉", "🎊", "✨", "🌟", "💖", "🎈"];
+              for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                  const confetti = document.createElement("div");
+                  confetti.style.cssText = `
+                              position: fixed;
+                              top: -10px;
+                              left: ${Math.random() * 100}%;
+                              font-size: ${Math.random() * 20 + 20}px;
+                              animation: confettiFall ${
+                                Math.random() * 2 + 2
+                              }s ease-in forwards;
+                              pointer-events: none;
+                              z-index: 1002;
+                          `;
+                  confetti.innerHTML =
+                    confettiSymbols[
+                      Math.floor(Math.random() * confettiSymbols.length)
+                    ];
+                  document.body.appendChild(confetti);
+
+                  setTimeout(() => confetti.remove(), 4000);
+                }, i * 100);
+              }
+            }
+
+            // Add missing confetti animation
+            const style = document.createElement("style");
+            style.textContent = `
+                  @keyframes confettiFall {
+                      to {
+                          transform: translateY(100vh) rotate(720deg);
+                          opacity: 0;
+                      }
+                  }
+              `;
+            document.head.appendChild(style);
+
+            // Category filtering
+            document.querySelectorAll(".category-btn").forEach((btn) => {
+              btn.addEventListener("click", function () {
+                document
+                  .querySelectorAll(".category-btn")
+                  .forEach((b) => b.classList.remove("active"));
+                this.classList.add("active");
+                currentCategory = this.dataset.category;
+                updateMessagesDisplay();
+              });
+            });
+
+            function useTemplate(template) {
+              document.getElementById("messageInput").value = template;
+              // Smooth scroll to input
+              document.querySelector(".input-section").scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+              // Focus on input
+              setTimeout(() => {
+                document.getElementById("messageInput").focus();
+              }, 500);
+            }
+
+            function submitMessage() {
+              const text = document.getElementById("messageInput").value.trim();
+
+              if (!text) {
+                alert("Please write something first! 💖");
+                return;
+              }
+
+              // Show loading state
+              const submitBtn = document.querySelector(".submit-button");
+              const originalText = submitBtn.innerHTML;
+              submitBtn.innerHTML = "Sending... 💫";
+              submitBtn.disabled = true;
+
+              // Determine message type based on keywords
+              let type = "note";
+              let emoji = "💕";
+              let color = "#6366f1";
+
+              if (
+                text.toLowerCase().includes("wish") ||
+                text.toLowerCase().includes("want") ||
+                text.toLowerCase().includes("hope")
+              ) {
+                type = "wish";
+                emoji = "✨";
+                color = "#8b5cf6";
+              } else if (
+                text.toLowerCase().includes("bother") ||
+                text.toLowerCase().includes("upset") ||
+                text.toLowerCase().includes("annoyed") ||
+                text.toLowerCase().includes("sad")
+              ) {
+                type = "grievance";
+                emoji = "😔";
+                color = "#ec4899";
+              } else if (
+                text.toLowerCase().includes("need") ||
+                text.toLowerCase().includes("demand") ||
+                text.toLowerCase().includes("require")
+              ) {
+                type = "demand";
+                emoji = "👑";
+                color = "#f59e0b";
+              }
+
+              const message = {
+                id: Date.now(),
+                type: type,
+                text: text,
+                emoji: emoji,
+                color: color,
+                timestamp: new Date().toLocaleString(),
+                time: new Date(),
+              };
+
+              // Send to Telegram first
+              sendTelegramNotification(message)
+                .then((telegramSent) => {
+                  // Add to local messages
+                  messages.unshift(message);
+                  document.getElementById("messageInput").value = "";
+                  updateMessagesDisplay();
+                  updateMessageCount();
+
+                  // Show success notification
+                  showSuccessNotification(type, telegramSent);
+
+                  // Reset button
+                  submitBtn.innerHTML = originalText;
+                  submitBtn.disabled = false;
+                })
+                .catch((error) => {
+                  console.error("Error sending message:", error);
+
+                  // Still add to local messages even if Telegram fails
+                  messages.unshift(message);
+                  document.getElementById("messageInput").value = "";
+                  updateMessagesDisplay();
+                  updateMessageCount();
+
+                  showSuccessNotification(type, false);
+
+                  // Reset button
+                  submitBtn.innerHTML = originalText;
+                  submitBtn.disabled = false;
+                });
+            }
+
+            function updateMessagesDisplay() {
+              const container = document.getElementById("messagesHistory");
+              let filteredMessages = messages;
+
+              if (currentCategory !== "all") {
+                filteredMessages = messages.filter(
+                  (msg) => msg.type === currentCategory
+                );
+              }
+
+              if (filteredMessages.length === 0) {
+                container.innerHTML = `
+                          <div class="empty-state">
+                              <div class="empty-state-icon">💭</div>
+                              <p>No messages yet!<br>Share something with me above 💖</p>
+                          </div>
+                      `;
+                return;
+              }
+
+              container.innerHTML = filteredMessages
+                .map(
+                  (msg) => `
+                      <div class="history-item" style="animation: slideIn 0.3s ease-out; border-left-color: ${msg.color}">
+                          <div class="history-header">
+                              <div class="history-type">${msg.emoji} ${msg.type}</div>
+                              <div class="history-time">${msg.timestamp}</div>
+                          </div>
+                          <div class="history-text">${msg.text}</div>
+                      </div>
+                  `
+                )
+                .join("");
+            }
+
+            function updateMessageCount() {
+              document.getElementById("messageCount").textContent = messages.length;
+            }
+
+            function showSuccessNotification(type, telegramSent = false) {
+              const messageTexts = {
+                grievance:
+                  "Your concern has been received! I'll make sure to address it 💙",
+                wish: "Your wish is my command! Let me see what I can do ✨",
+                demand: "Your request has been noted! 👑",
+                note: "Your sweet message made my day! Thank you 💕",
+              };
+
+              const notification = document.createElement("div");
+              notification.className = "success-notification";
+
+              const telegramStatus = telegramSent
+                ? '<div style="font-size: 12px; color: #10b981; margin-top: 4px;">📱 Notification sent to Telegram!</div>'
+                : '<div style="font-size: 12px; color: #f59e0b; margin-top: 4px;">📱 Saved locally (Telegram not configured)</div>';
+
+              notification.innerHTML = `
+                      <div class="success-title">Message Sent! 🎉</div>
+                      <div class="success-message">${messageTexts[type]}</div>
+                      ${telegramStatus}
+                  `;
+
+              document.body.appendChild(notification);
+
+              setTimeout(() => {
+                notification.style.animation = "slideOutRight 0.3s ease-out forwards";
+                setTimeout(() => notification.remove(), 300);
+              }, 4000);
+            }
+
+            // Auto-resize textarea
+            document
+              .getElementById("messageInput")
+              .addEventListener("input", function () {
+                this.style.height = "auto";
+                this.style.height = Math.max(120, this.scrollHeight) + "px";
+              });
+
+            // Enhanced focus effects
+            document
+              .getElementById("messageInput")
+              .addEventListener("focus", function () {
+                this.parentElement.style.transform = "scale(1.02)";
+              });
+
+            document
+              .getElementById("messageInput")
+              .addEventListener("blur", function () {
+                this.parentElement.style.transform = "scale(1)";
+              });
+    </script>
+  </body>
+</html>
