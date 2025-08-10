@@ -890,9 +890,7 @@
           something bothering you, a wish you have, or just something you want
           me to know! 💕
         </div>
-        <button class="enter-btn" onclick="enterPortal()">
-          Enter My Portal ✨
-        </button>
+        <button class="enter-btn" id="enterBtn">Enter My Portal ✨</button>
       </div>
     </div>
 
@@ -932,8 +930,9 @@
 
         <div
           class="message-card"
-          onclick="useTemplate('I miss spending quality time together 💕')"
+          data-template="I miss spending quality time together 💕"
         >
+          >
           <div class="message-header">
             <div class="message-avatar">💕</div>
             <div class="message-info">
@@ -956,8 +955,9 @@
 
         <div
           class="message-card"
-          onclick="useTemplate('I wish we could go on a cute date together! 🥰')"
+          data-template="I wish we could go on a cute date together! 🥰"
         >
+          >
           <div class="message-header">
             <div class="message-avatar">✨</div>
             <div class="message-info">
@@ -990,9 +990,7 @@
           class="input-field"
           placeholder="What's on your mind, my love? Share anything - your thoughts, feelings, wishes, or concerns..."
         ></textarea>
-        <button class="submit-button" onclick="submitMessage()">
-          Send Message 💕
-        </button>
+        <button class="submit-button" id="submitBtn">Send Message 💕</button>
       </div>
 
       <!-- Message History -->
@@ -1011,309 +1009,360 @@
     </div>
 
     <script>
-            let messages = [];
-            let currentCategory = "all";
+              // Configuration
+              let messages = [];
+              let currentCategory = 'all';
 
-            // Telegram Bot Configuration
-            const TELEGRAM_BOT_TOKEN = "8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM"; // Replace with your bot token
-            const TELEGRAM_CHAT_ID = "1222090937"; // Replace with your chat ID
+              // Telegram Bot Configuration
+              const TELEGRAM_BOT_TOKEN = '8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM'; // Replace with your bot token
+              const TELEGRAM_CHAT_ID = '1222090937'; // Replace with your chat ID
 
-            // Create floating hearts with more variety
-            function createHeart() {
-              const heart = document.createElement("div");
-              heart.className = "heart";
-              const heartSymbols = [
-                "💖",
-                "💕",
-                "💝",
-                "💗",
-                "💓",
-                "🌸",
-                "✨",
-                "🌟",
-                "💫",
-                "🦋",
-              ];
-              heart.innerHTML =
-                heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-              heart.style.left = Math.random() * 100 + "%";
-              heart.style.animationDelay = Math.random() * 2 + "s";
-              heart.style.animationDuration = Math.random() * 4 + 6 + "s";
-              document.getElementById("hearts").appendChild(heart);
+              // Wait for DOM to load
+              document.addEventListener('DOMContentLoaded', function() {
+                  initializeEventListeners();
+                  setInterval(createHeart, 1500);
+              });
 
-              setTimeout(() => {
-                heart.remove();
-              }, 10000);
-            }
-
-            setInterval(createHeart, 1500);
-
-            // Send notification to Telegram
-            async function sendTelegramNotification(message) {
-              if (
-                !TELEGRAM_BOT_TOKEN ||
-                !TELEGRAM_CHAT_ID ||
-                TELEGRAM_BOT_TOKEN === "8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM" ||
-                TELEGRAM_CHAT_ID === "1222090937"
-              ) {
-                console.log(
-                  "Telegram not configured. Message would be sent:",
-                  message
-                );
-                return;
-              }
-
-              const typeEmojis = {
-                grievance: "😔💔",
-                wish: "✨🌟",
-                demand: "👑💎",
-                note: "💕💌",
-              };
-
-              const typeTexts = {
-                grievance: "🚨 CONCERN ALERT 🚨",
-                wish: "⭐ NEW WISH ⭐",
-                demand: "👑 IMPORTANT REQUEST 👑",
-                note: "💖 SWEET MESSAGE 💖",
-              };
-
-              const telegramMessage = `
-      ${typeTexts[message.type]}
-
-      ${typeEmojis[message.type]} **From: Gunnu**
-      📝 **Category:** ${message.type.charAt(0).toUpperCase() + message.type.slice(1)}
-      ⏰ **Time:** ${message.timestamp}
-
-      💭 **Message:**
-      "${message.text}"
-
-      ${message.type === "grievance" ? "⚠️ This needs your attention!" : ""}
-      ${message.type === "wish" ? "🎯 Time to make some magic happen!" : ""}
-      ${message.type === "demand" ? "🔥 Priority request from your princess!" : ""}
-      ${message.type === "note" ? "🥰 Your girl is thinking of you!" : ""}
-
-      ━━━━━━━━━━━━━━━━━━━━
-      💌 Sent from Gunnu's Special Portal
-                  `.trim();
-
-              try {
-                const response = await fetch(
-                  `https://api.telegram.org/bot${8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM}/sendMessage`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      chat_id: 1222090937,
-                      text: telegramMessage,
-                      parse_mode: "Markdown",
-                    }),
+              // Initialize all event listeners
+              function initializeEventListeners() {
+                  // Enter portal button
+                  const enterBtn = document.getElementById('enterBtn');
+                  if (enterBtn) {
+                      enterBtn.addEventListener('click', enterPortal);
                   }
-                );
 
-                const result = await response.json();
-                if (result.ok) {
-                  console.log("✅ Telegram notification sent successfully!");
-                  return true;
-                } else {
-                  console.error("❌ Telegram API error:", result);
-                  return false;
-                }
-              } catch (error) {
-                console.error("❌ Failed to send Telegram notification:", error);
-                return false;
+                  // Submit button
+                  const submitBtn = document.getElementById('submitBtn');
+                  if (submitBtn) {
+                      submitBtn.addEventListener('click', submitMessage);
+                  }
+
+                  // Template cards
+                  const templateCards = document.querySelectorAll('[data-template]');
+                  templateCards.forEach(card => {
+                      card.addEventListener('click', function() {
+                          const template = this.getAttribute('data-template');
+                          useTemplate(template);
+                      });
+                  });
+
+                  // Category buttons
+                  const categoryBtns = document.querySelectorAll('.category-btn');
+                  categoryBtns.forEach(btn => {
+                      btn.addEventListener('click', function() {
+                          categoryBtns.forEach(b => b.classList.remove('active'));
+                          this.classList.add('active');
+                          currentCategory = this.dataset.category;
+                          updateMessagesDisplay();
+                      });
+                  });
+
+                  // Auto-resize textarea
+                  const messageInput = document.getElementById('messageInput');
+                  if (messageInput) {
+                      messageInput.addEventListener('input', function() {
+                          this.style.height = 'auto';
+                          this.style.height = Math.max(120, this.scrollHeight) + 'px';
+                      });
+
+                      // Enhanced focus effects
+                      messageInput.addEventListener('focus', function() {
+                          this.parentElement.style.transform = 'scale(1.02)';
+                      });
+
+                      messageInput.addEventListener('blur', function() {
+                          this.parentElement.style.transform = 'scale(1)';
+                      });
+                  }
               }
-            }
 
-            function enterPortal() {
-              const overlay = document.getElementById("welcomeOverlay");
-              overlay.style.animation = "fadeOut 0.8s ease-out forwards";
+              // Create floating hearts with more variety
+              function createHeart() {
+                  const heart = document.createElement('div');
+                  heart.className = 'heart';
+                  const heartSymbols = ['💖', '💕', '💝', '💗', '💓', '🌸', '✨', '🌟', '💫', '🦋'];
+                  heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                  heart.style.left = Math.random() * 100 + '%';
+                  heart.style.animationDelay = Math.random() * 2 + 's';
+                  heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                  document.getElementById('hearts').appendChild(heart);
 
-              // Add confetti effect
-              createConfetti();
+                  setTimeout(() => {
+                      heart.remove();
+                  }, 10000);
+              }
 
-              setTimeout(() => {
-                overlay.style.display = "none";
-              }, 800);
-            }
+              // Create floating hearts with more variety
+              function createHeart() {
+                  const heart = document.createElement('div');
+                  heart.className = 'heart';
+                  const heartSymbols = ['💖', '💕', '💝', '💗', '💓', '🌸', '✨', '🌟', '💫', '🦋'];
+                  heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                  heart.style.left = Math.random() * 100 + '%';
+                  heart.style.animationDelay = Math.random() * 2 + 's';
+                  heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
 
-            function createConfetti() {
-              const confettiSymbols = ["🎉", "🎊", "✨", "🌟", "💖", "🎈"];
-              for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                  const confetti = document.createElement("div");
-                  confetti.style.cssText = `
+                  const heartsContainer = document.getElementById('hearts');
+                  if (heartsContainer) {
+                      heartsContainer.appendChild(heart);
+
+                      setTimeout(() => {
+                          if (heart.parentNode) {
+                              heart.remove();
+                          }
+                      }, 10000);
+                  }
+              }
+
+              function enterPortal() {
+                  const overlay = document.getElementById('welcomeOverlay');
+                  if (overlay) {
+                      overlay.style.animation = 'fadeOut 0.8s ease-out forwards';
+
+                      // Add confetti effect
+                      createConfetti();
+
+                      setTimeout(() => {
+                          overlay.style.display = 'none';
+                      }, 800);
+                  }
+              }
+
+              function createConfetti() {
+                  const confettiSymbols = ['🎉', '🎊', '✨', '🌟', '💖', '🎈'];
+                  for (let i = 0; i < 20; i++) {
+                      setTimeout(() => {
+                          const confetti = document.createElement('div');
+                          confetti.style.cssText = `
                               position: fixed;
                               top: -10px;
                               left: ${Math.random() * 100}%;
                               font-size: ${Math.random() * 20 + 20}px;
-                              animation: confettiFall ${
-                                Math.random() * 2 + 2
-                              }s ease-in forwards;
+                              animation: confettiFall ${Math.random() * 2 + 2}s ease-in forwards;
                               pointer-events: none;
                               z-index: 1002;
                           `;
-                  confetti.innerHTML =
-                    confettiSymbols[
-                      Math.floor(Math.random() * confettiSymbols.length)
-                    ];
-                  document.body.appendChild(confetti);
+                          confetti.innerHTML = confettiSymbols[Math.floor(Math.random() * confettiSymbols.length)];
+                          document.body.appendChild(confetti);
 
-                  setTimeout(() => confetti.remove(), 4000);
-                }, i * 100);
-              }
-            }
-
-            // Add missing confetti animation
-            const style = document.createElement("style");
-            style.textContent = `
-                  @keyframes confettiFall {
-                      to {
-                          transform: translateY(100vh) rotate(720deg);
-                          opacity: 0;
-                      }
+                          setTimeout(() => {
+                              if (confetti.parentNode) {
+                                  confetti.remove();
+                              }
+                          }, 4000);
+                      }, i * 100);
                   }
-              `;
-            document.head.appendChild(style);
-
-            // Category filtering
-            document.querySelectorAll(".category-btn").forEach((btn) => {
-              btn.addEventListener("click", function () {
-                document
-                  .querySelectorAll(".category-btn")
-                  .forEach((b) => b.classList.remove("active"));
-                this.classList.add("active");
-                currentCategory = this.dataset.category;
-                updateMessagesDisplay();
-              });
-            });
-
-            function useTemplate(template) {
-              document.getElementById("messageInput").value = template;
-              // Smooth scroll to input
-              document.querySelector(".input-section").scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-              // Focus on input
-              setTimeout(() => {
-                document.getElementById("messageInput").focus();
-              }, 500);
-            }
-
-            function submitMessage() {
-              const text = document.getElementById("messageInput").value.trim();
-
-              if (!text) {
-                alert("Please write something first! 💖");
-                return;
               }
 
-              // Show loading state
-              const submitBtn = document.querySelector(".submit-button");
-              const originalText = submitBtn.innerHTML;
-              submitBtn.innerHTML = "Sending... 💫";
-              submitBtn.disabled = true;
-
-              // Determine message type based on keywords
-              let type = "note";
-              let emoji = "💕";
-              let color = "#6366f1";
-
-              if (
-                text.toLowerCase().includes("wish") ||
-                text.toLowerCase().includes("want") ||
-                text.toLowerCase().includes("hope")
-              ) {
-                type = "wish";
-                emoji = "✨";
-                color = "#8b5cf6";
-              } else if (
-                text.toLowerCase().includes("bother") ||
-                text.toLowerCase().includes("upset") ||
-                text.toLowerCase().includes("annoyed") ||
-                text.toLowerCase().includes("sad")
-              ) {
-                type = "grievance";
-                emoji = "😔";
-                color = "#ec4899";
-              } else if (
-                text.toLowerCase().includes("need") ||
-                text.toLowerCase().includes("demand") ||
-                text.toLowerCase().includes("require")
-              ) {
-                type = "demand";
-                emoji = "👑";
-                color = "#f59e0b";
+              // Add missing confetti animation
+              function addConfettiAnimation() {
+                  const style = document.createElement('style');
+                  style.textContent = `
+                      @keyframes confettiFall {
+                          to {
+                              transform: translateY(100vh) rotate(720deg);
+                              opacity: 0;
+                          }
+                      }
+                  `;
+                  document.head.appendChild(style);
               }
 
-              const message = {
-                id: Date.now(),
-                type: type,
-                text: text,
-                emoji: emoji,
-                color: color,
-                timestamp: new Date().toLocaleString(),
-                time: new Date(),
-              };
-
-              // Send to Telegram first
-              sendTelegramNotification(message)
-                .then((telegramSent) => {
-                  // Add to local messages
-                  messages.unshift(message);
-                  document.getElementById("messageInput").value = "";
-                  updateMessagesDisplay();
-                  updateMessageCount();
-
-                  // Show success notification
-                  showSuccessNotification(type, telegramSent);
-
-                  // Reset button
-                  submitBtn.innerHTML = originalText;
-                  submitBtn.disabled = false;
-                })
-                .catch((error) => {
-                  console.error("Error sending message:", error);
-
-                  // Still add to local messages even if Telegram fails
-                  messages.unshift(message);
-                  document.getElementById("messageInput").value = "";
-                  updateMessagesDisplay();
-                  updateMessageCount();
-
-                  showSuccessNotification(type, false);
-
-                  // Reset button
-                  submitBtn.innerHTML = originalText;
-                  submitBtn.disabled = false;
-                });
-            }
-
-            function updateMessagesDisplay() {
-              const container = document.getElementById("messagesHistory");
-              let filteredMessages = messages;
-
-              if (currentCategory !== "all") {
-                filteredMessages = messages.filter(
-                  (msg) => msg.type === currentCategory
-                );
+              // Call this when DOM loads
+              if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', addConfettiAnimation);
+              } else {
+                  addConfettiAnimation();
               }
 
-              if (filteredMessages.length === 0) {
-                container.innerHTML = `
+              // Send notification to Telegram
+              async function sendTelegramNotification(message) {
+                  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID ||
+                      TELEGRAM_BOT_TOKEN === '8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM' ||
+                      TELEGRAM_CHAT_ID === '1222090937') {
+                      console.log('Telegram not configured. Message would be sent:', message);
+                      return false;
+                  }
+
+                  const typeEmojis = {
+                      grievance: '😔💔',
+                      wish: '✨🌟',
+                      demand: '👑💎',
+                      note: '💕💌'
+                  };
+
+                  const typeTexts = {
+                      grievance: '🚨 CONCERN ALERT 🚨',
+                      wish: '⭐ NEW WISH ⭐',
+                      demand: '👑 IMPORTANT REQUEST 👑',
+                      note: '💖 SWEET MESSAGE 💖'
+                  };
+
+                  const telegramMessage = `${typeTexts[message.type]}
+
+      ${typeEmojis[message.type]} *From: Gunnu*
+      📝 *Category:* ${message.type.charAt(0).toUpperCase() + message.type.slice(1)}
+      ⏰ *Time:* ${message.timestamp}
+
+      💭 *Message:*
+      "${message.text}"
+
+      ${message.type === 'grievance' ? '⚠️ This needs your attention!' : ''}
+      ${message.type === 'wish' ? '🎯 Time to make some magic happen!' : ''}
+      ${message.type === 'demand' ? '🔥 Priority request from your princess!' : ''}
+      ${message.type === 'note' ? '🥰 Your girl is thinking of you!' : ''}
+
+      ━━━━━━━━━━━━━━━━━━━━
+      💌 Sent from Gunnu's Special Portal`;
+
+                  try {
+                      const response = await fetch(`https://api.telegram.org/bot${8499422563:AAHPRNztPwihUMLsEUmAjMm0ZoSDnsUz0hM}/sendMessage`, {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                              chat_id: 1222090937,
+                              text: telegramMessage,
+                              parse_mode: 'Markdown'
+                          })
+                      });
+
+                      const result = await response.json();
+                      if (result.ok) {
+                          console.log('✅ Telegram notification sent successfully!');
+                          return true;
+                      } else {
+                          console.error('❌ Telegram API error:', result);
+                          return false;
+                      }
+                  } catch (error) {
+                      console.error('❌ Failed to send Telegram notification:', error);
+                      return false;
+                  }
+              }
+
+              function useTemplate(template) {
+                  const messageInput = document.getElementById('messageInput');
+                  if (messageInput) {
+                      messageInput.value = template;
+                      // Smooth scroll to input
+                      document.querySelector('.input-section').scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'center'
+                      });
+                      // Focus on input
+                      setTimeout(() => {
+                          messageInput.focus();
+                      }, 500);
+                  }
+              }
+
+              function submitMessage() {
+                  const messageInput = document.getElementById('messageInput');
+                  const text = messageInput ? messageInput.value.trim() : '';
+
+                  if (!text) {
+                      alert('Please write something first! 💖');
+                      return;
+                  }
+
+                  // Show loading state
+                  const submitBtn = document.getElementById('submitBtn');
+                  const originalText = submitBtn.innerHTML;
+                  submitBtn.innerHTML = 'Sending... 💫';
+                  submitBtn.disabled = true;
+
+                  // Determine message type based on keywords
+                  let type = 'note';
+                  let emoji = '💕';
+                  let color = '#6366f1';
+
+                  const lowerText = text.toLowerCase();
+                  if (lowerText.includes('wish') || lowerText.includes('want') || lowerText.includes('hope')) {
+                      type = 'wish';
+                      emoji = '✨';
+                      color = '#8b5cf6';
+                  } else if (lowerText.includes('bother') || lowerText.includes('upset') || lowerText.includes('annoyed') || lowerText.includes('sad')) {
+                      type = 'grievance';
+                      emoji = '😔';
+                      color = '#ec4899';
+                  } else if (lowerText.includes('need') || lowerText.includes('demand') || lowerText.includes('require')) {
+                      type = 'demand';
+                      emoji = '👑';
+                      color = '#f59e0b';
+                  }
+
+                  const message = {
+                      id: Date.now(),
+                      type: type,
+                      text: text,
+                      emoji: emoji,
+                      color: color,
+                      timestamp: new Date().toLocaleString(),
+                      time: new Date()
+                  };
+
+                  // Send to Telegram first
+                  sendTelegramNotification(message).then(telegramSent => {
+                      // Add to local messages
+                      messages.unshift(message);
+                      if (messageInput) {
+                          messageInput.value = '';
+                      }
+                      updateMessagesDisplay();
+                      updateMessageCount();
+
+                      // Show success notification
+                      showSuccessNotification(type, telegramSent);
+
+                      // Reset button
+                      if (submitBtn) {
+                          submitBtn.innerHTML = originalText;
+                          submitBtn.disabled = false;
+                      }
+                  }).catch(error => {
+                      console.error('Error sending message:', error);
+
+                      // Still add to local messages even if Telegram fails
+                      messages.unshift(message);
+                      if (messageInput) {
+                          messageInput.value = '';
+                      }
+                      updateMessagesDisplay();
+                      updateMessageCount();
+
+                      showSuccessNotification(type, false);
+
+                      // Reset button
+                      if (submitBtn) {
+                          submitBtn.innerHTML = originalText;
+                          submitBtn.disabled = false;
+                      }
+                  });
+              }
+
+              function updateMessagesDisplay() {
+                  const container = document.getElementById('messagesHistory');
+                  if (!container) return;
+
+                  let filteredMessages = messages;
+
+                  if (currentCategory !== 'all') {
+                      filteredMessages = messages.filter(msg => msg.type === currentCategory);
+                  }
+
+                  if (filteredMessages.length === 0) {
+                      container.innerHTML = `
                           <div class="empty-state">
                               <div class="empty-state-icon">💭</div>
                               <p>No messages yet!<br>Share something with me above 💖</p>
                           </div>
                       `;
-                return;
-              }
+                      return;
+                  }
 
-              container.innerHTML = filteredMessages
-                .map(
-                  (msg) => `
+                  container.innerHTML = filteredMessages.map(msg => `
                       <div class="history-item" style="animation: slideIn 0.3s ease-out; border-left-color: ${msg.color}">
                           <div class="history-header">
                               <div class="history-type">${msg.emoji} ${msg.type}</div>
@@ -1321,65 +1370,48 @@
                           </div>
                           <div class="history-text">${msg.text}</div>
                       </div>
-                  `
-                )
-                .join("");
-            }
+                  `).join('');
+              }
 
-            function updateMessageCount() {
-              document.getElementById("messageCount").textContent = messages.length;
-            }
+              function updateMessageCount() {
+                  const countElement = document.getElementById('messageCount');
+                  if (countElement) {
+                      countElement.textContent = messages.length;
+                  }
+              }
 
-            function showSuccessNotification(type, telegramSent = false) {
-              const messageTexts = {
-                grievance:
-                  "Your concern has been received! I'll make sure to address it 💙",
-                wish: "Your wish is my command! Let me see what I can do ✨",
-                demand: "Your request has been noted! 👑",
-                note: "Your sweet message made my day! Thank you 💕",
-              };
+              function showSuccessNotification(type, telegramSent = false) {
+                  const messageTexts = {
+                      grievance: "Your concern has been received! I'll make sure to address it 💙",
+                      wish: "Your wish is my command! Let me see what I can do ✨",
+                      demand: "Your request has been noted! 👑",
+                      note: "Your sweet message made my day! Thank you 💕"
+                  };
 
-              const notification = document.createElement("div");
-              notification.className = "success-notification";
+                  const notification = document.createElement('div');
+                  notification.className = 'success-notification';
 
-              const telegramStatus = telegramSent
-                ? '<div style="font-size: 12px; color: #10b981; margin-top: 4px;">📱 Notification sent to Telegram!</div>'
-                : '<div style="font-size: 12px; color: #f59e0b; margin-top: 4px;">📱 Saved locally (Telegram not configured)</div>';
+                  const telegramStatus = telegramSent ?
+                      '<div style="font-size: 12px; color: #10b981; margin-top: 4px;">📱 Notification sent to Telegram!</div>' :
+                      '<div style="font-size: 12px; color: #f59e0b; margin-top: 4px;">📱 Saved locally (Telegram not configured)</div>';
 
-              notification.innerHTML = `
+                  notification.innerHTML = `
                       <div class="success-title">Message Sent! 🎉</div>
                       <div class="success-message">${messageTexts[type]}</div>
                       ${telegramStatus}
                   `;
 
-              document.body.appendChild(notification);
+                  document.body.appendChild(notification);
 
-              setTimeout(() => {
-                notification.style.animation = "slideOutRight 0.3s ease-out forwards";
-                setTimeout(() => notification.remove(), 300);
-              }, 4000);
-            }
-
-            // Auto-resize textarea
-            document
-              .getElementById("messageInput")
-              .addEventListener("input", function () {
-                this.style.height = "auto";
-                this.style.height = Math.max(120, this.scrollHeight) + "px";
-              });
-
-            // Enhanced focus effects
-            document
-              .getElementById("messageInput")
-              .addEventListener("focus", function () {
-                this.parentElement.style.transform = "scale(1.02)";
-              });
-
-            document
-              .getElementById("messageInput")
-              .addEventListener("blur", function () {
-                this.parentElement.style.transform = "scale(1)";
-              });
+                  setTimeout(() => {
+                      notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                      setTimeout(() => {
+                          if (notification.parentNode) {
+                              notification.remove();
+                          }
+                      }, 300);
+                  }, 4000);
+              }
     </script>
   </body>
 </html>
